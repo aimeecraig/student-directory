@@ -11,7 +11,6 @@ def interactive_menu
 end
 
 def print_menu
-  # present options to user
   puts "1. Input the students"
   puts "2. Show the students"
   puts "3. Save the list to students.csv"
@@ -44,10 +43,8 @@ def process(selection)
 end
 
 def input_students
-  # prompt for user input
   puts "Please enter the name of the student"
   puts "To finish, just hit return twice"
-  # get the first name
   name = STDIN.gets.chomp
   # while the name is not empty, repeat this code
   while !name.empty? do
@@ -61,11 +58,15 @@ def input_students
     puts "Please enter #{name}'s birth country"
     birth_country = STDIN.gets.chomp
     # pushes student entry to students array
-    @students << {name: name, cohort: cohort.to_sym, birth_country: birth_country}
+    push_entry(name, cohort, birth_country)
     puts "Now we have #{@students.count} students"
     # get another name from the user
     name = STDIN.gets.chomp
   end
+end
+
+def push_entry(name, cohort, birth_country)
+  @students << {name: name, cohort: cohort.to_sym, birth_country: birth_country}
 end
 
 def print_header
@@ -142,7 +143,7 @@ def load_students(filename = "students.csv")
   file = File.open(filename, "r")
   file.readlines.each do |line|
     name, cohort, birth_country = line.chomp.split(",")
-    @students << {name: name, cohort: cohort.to_sym, birth_country: birth_country}
+    push_entry(name, cohort, birth_country)
   end
   file.close
 end
