@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 @students = []
+@months = [ "january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december" ]
 
 def interactive_menu
   loop do
@@ -14,6 +15,7 @@ def print_menu
   puts "1. Input the students"
   puts "2. Show the students"
   puts "3. Save the list to students.csv"
+  puts "4. Load the list from students.csv"
   puts "9. Exit"
 end
 
@@ -32,6 +34,8 @@ def process(selection)
     show_students
   when "3"
     save_students
+  when "4"
+    load_students
   when "9"
     exit
   else
@@ -40,8 +44,6 @@ def process(selection)
 end
 
 def input_students
-  # define a list of valid cohort months
-  @months = [ "january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december" ]
   # prompt for user input
   puts "Please enter the name of the student"
   puts "To finish, just hit return twice"
@@ -132,6 +134,15 @@ def save_students
     student_data = [student[:name], student[:cohort], student[:birth_country]]
     csv_line = student_data.join(",")
     file.puts csv_line
+  end
+  file.close
+end
+
+def load_students
+  file = File.open("students.csv", "r")
+  file.readlines.each do |line|
+    name, cohort, birth_country = line.chomp.split(",")
+    @students << {name: name, cohort: cohort.to_sym, birth_country: birth_country}
   end
   file.close
 end
