@@ -1,19 +1,22 @@
 #!/usr/bin/env ruby
 
 def input_students
-  puts "Please the names of the students"
+  puts "Please enter the name of the student and their birth country,
+separated with a comma"
   puts "To finish, just hit return twice"
   # create an empty array
   students = []
   # get the first name
-  name = gets.chomp
+  user_input = gets.chomp
+  student = user_input.split(",")
   # while the name is not empty, repeat this code
-  while !name.empty? do
+  while !user_input.empty? do
     # add the student hash to the array
-    students << {name: name, cohort: :november}
+    students << {name: student[0], cohort: :november, birth_country: student[1]}
     puts "Now we have #{students.count} students"
     # get another name from the user
-    name = gets.chomp
+    user_input = gets.chomp
+    student = user_input.split(",")
   end
   # return the array of students
   students
@@ -27,7 +30,8 @@ end
 # prints the list of students
 def print(students)
   students.each_with_index do |student, index|
-    puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort)"
+    puts "#{index}. #{student[:name]} (#{student[:cohort]} cohort), birth
+country: #{student[:birth_country]}"
   end
 end
 
@@ -65,5 +69,5 @@ end
 
 students = input_students
 print_header
-print_loop(students)
+print(students)
 print_footer(students)
