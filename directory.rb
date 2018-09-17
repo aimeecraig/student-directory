@@ -16,14 +16,16 @@ def input_students
     cohort = gets.chomp
     # check for empty value
     if cohort == nil || months.include?(cohort) == false
-      students << {name: name, cohort: :september, birth_country: "UK"}
-    else
-      students << {name: name, cohort: cohort.to_sym, birth_country: "UK"}
+      cohort = "september"
     end
+    # get student's birth country
+    puts "Please enter #{name}'s birth country"
+    birth_country = gets.chomp
+    # pushes student entry to students array
+    students << {name: name, cohort: cohort.to_sym, birth_country: birth_country}
     puts "Now we have #{students.count} students"
     # get another name from the user
-    user_input = gets.chomp
-    name = user_input.split(",")
+    name = gets.chomp
   end
   # return the array of students
   students
@@ -60,7 +62,13 @@ end
 
 # prints the number of students
 def print_footer(names)
-  puts "Overall we have #{names.count} great students"
+  if names.count == 0
+    puts "There are no students present in the directory"
+  elsif names.count == 1
+    puts "Overall we have #{names.count} great student"
+  else
+    puts "Overall we have #{names.count} great students"
+  end
 end
 
 students = input_students
