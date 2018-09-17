@@ -1,5 +1,30 @@
 #!/usr/bin/env ruby
 
+def interactive_menu
+  students = []
+  loop do
+    # present options to user
+    puts "1. Input the students"
+    puts "2. Show the students"
+    puts "9. Exit"
+    # read the input and save it into a variable
+    selection = gets.chomp
+    # run selection
+    case selection
+    when "1"
+      students = input_students
+    when "2"
+      print_header
+      print(students)
+      print_footer(students)
+    when "9"
+      exit
+    else
+      puts "I don't know what you meant, try again"
+    end
+  end
+end
+
 def input_students
   # define a list of valid cohort months
   @months = [ "january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december" ]
@@ -89,7 +114,4 @@ def print_footer(names)
   end
 end
 
-students = input_students
-print_header
-print(students)
-print_footer(students)
+interactive_menu
