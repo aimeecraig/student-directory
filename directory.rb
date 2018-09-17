@@ -27,12 +27,21 @@ end
 # prints the list of students
 def print(students)
   students.each_with_index do |student, index|
+    puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort)"
+  end
+end
+
+# prints the list of students using control flow
+def print_loop(students)
+  index = 0
+  until index = students.length
     puts "#{index}. #{student[:name]} (#{student[:cohort]} cohort)"
+    index += 1
   end
 end
 
 # prints the students whose name begins with a certain letter
-def print_selected_students(students, letter)
+def print_selected(students, letter)
   students.each_with_index do |student, index|
     if student[:name].start_with?(letter)
       puts "#{index}. #{student[:name]} (#{student[:cohort]} cohort)"
@@ -56,5 +65,5 @@ end
 
 students = input_students
 print_header
-print_shorter_than(students, 5)
+print_loop(students)
 print_footer(students)
