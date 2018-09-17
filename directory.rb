@@ -2,7 +2,7 @@
 
 def input_students
   # define a list of valid cohort months
-  months = [ "january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december" ]
+  @months = [ "january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december" ]
   # prompt for user input
   puts "Please enter the name of the student"
   puts "To finish, just hit return twice"
@@ -15,7 +15,7 @@ def input_students
     puts "Please enter the cohort"
     cohort = gets.chomp
     # check for empty value
-    if cohort == nil || months.include?(cohort) == false
+    if cohort == nil || @months.include?(cohort) == false
       cohort = "september"
     end
     # get student's birth country
@@ -33,12 +33,28 @@ end
 
 def print_header
   puts "The students of Villians Academy".center(50, "-")
+  puts "\n"
 end
 
 # prints the list of students
 def print(students)
+  @months.each do |month|
+    puts "#{month.capitalize} Cohort".center(50, "-")
+    students.each_with_index do |student, index|
+      if student[:cohort] == month.to_sym
+        puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort), birth country: #{student[:birth_country]}"
+      end
+    end
+  end
+end
+
+# prints specific month
+def print_month(students, month)
+  puts "#{month.capitalize} Cohort".center(50, "-")
   students.each_with_index do |student, index|
-    puts "#{index}. #{student[:name]} (#{student[:cohort]} cohort), birth country: #{student[:birth_country]}"
+    if student[:cohort] == month.to_sym
+      puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort), birth country: #{student[:birth_country]}"
+    end
   end
 end
 
@@ -46,7 +62,7 @@ end
 def print_selected(students, letter)
   students.each_with_index do |student, index|
     if student[:name].start_with?(letter)
-      puts "#{index}. #{student[:name]} (#{student[:cohort]} cohort)"
+      puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort)"
     end
   end
 end
@@ -55,7 +71,7 @@ end
 def print_shorter_than(students, character_limit)
   students.each_with_index do |student, index|
     if student[:name].length <= character_limit
-      puts "#{index}. #{student[:name]} (#{student[:cohort]} cohort)"
+      puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort)"
     end
   end
 end
