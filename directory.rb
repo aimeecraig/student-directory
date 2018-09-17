@@ -1,27 +1,38 @@
 #!/usr/bin/env ruby
 
+@students = []
+
 def interactive_menu
-  students = []
   loop do
-    # present options to user
-    puts "1. Input the students"
-    puts "2. Show the students"
-    puts "9. Exit"
-    # read the input and save it into a variable
-    selection = gets.chomp
-    # run selection
-    case selection
-    when "1"
-      students = input_students
-    when "2"
-      print_header
-      print(students)
-      print_footer(students)
-    when "9"
-      exit
-    else
-      puts "I don't know what you meant, try again"
-    end
+    print_menu
+    process(gets.chomp)
+  end
+end
+
+def print_menu
+  # present options to user
+  puts "1. Input the students"
+  puts "2. Show the students"
+  puts "9. Exit"
+end
+
+def show_students
+  print_header
+  print_student_list(@students)
+  print_footer(@students)
+end
+
+def process(selection)
+  # run selection
+  case selection
+  when "1"
+    input_students
+  when "2"
+    show_students
+  when "9"
+    exit
+  else
+    puts "I don't know what you meant, try again"
   end
 end
 
@@ -31,8 +42,6 @@ def input_students
   # prompt for user input
   puts "Please enter the name of the student"
   puts "To finish, just hit return twice"
-  # create an empty array
-  students = []
   # get the first name
   name = gets.chomp
   # while the name is not empty, repeat this code
@@ -47,13 +56,11 @@ def input_students
     puts "Please enter #{name}'s birth country"
     birth_country = gets.chomp
     # pushes student entry to students array
-    students << {name: name, cohort: cohort.to_sym, birth_country: birth_country}
-    puts "Now we have #{students.count} students"
+    @students << {name: name, cohort: cohort.to_sym, birth_country: birth_country}
+    puts "Now we have #{@students.count} students"
     # get another name from the user
     name = gets.chomp
   end
-  # return the array of students
-  students
 end
 
 def print_header
@@ -62,7 +69,7 @@ def print_header
 end
 
 # prints the list of students
-def print(students)
+def print_student_list(students)
   if students.empty? == true
     # do nothing
   else
