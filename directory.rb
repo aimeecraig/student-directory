@@ -40,6 +40,15 @@ def print_selected_students(students, letter)
   end
 end
 
+# prints the students whose name is less than n characters
+def print_shorter_than(students, character_limit)
+  students.each_with_index do |student, index|
+    if student[:name].length <= character_limit
+      puts "#{index}. #{student[:name]} (#{student[:cohort]} cohort)"
+    end
+  end
+end
+
 # prints the number of students
 def print_footer(names)
   puts "Overall we have #{names.count} great students"
@@ -47,5 +56,5 @@ end
 
 students = input_students
 print_header
-print_selected_students(students, "A")
+print_shorter_than(students, 5)
 print_footer(students)
