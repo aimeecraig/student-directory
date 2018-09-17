@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 
+# prints the list of students
 puts "The students of Villians Academy"
 puts "--------------------------------"
 puts "Dr. Hannibal Lecter"
@@ -13,6 +14,7 @@ puts "Freddy Kruger"
 puts "The Joker"
 puts "Joffrey Baratheon"
 puts "Norman Bates"
+# prints the number of students
 print "Overall we have "
 print 11
 puts " great students"
