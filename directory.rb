@@ -35,15 +35,6 @@ country: #{student[:birth_country]}"
   end
 end
 
-# prints the list of students using control flow
-def print_loop(students)
-  index = 0
-  until index = students.length
-    puts "#{index}. #{student[:name]} (#{student[:cohort]} cohort)"
-    index += 1
-  end
-end
-
 # prints the students whose name begins with a certain letter
 def print_selected(students, letter)
   students.each_with_index do |student, index|
