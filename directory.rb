@@ -38,11 +38,15 @@ end
 
 # prints the list of students
 def print(students)
-  @months.each do |month|
-    puts "#{month.capitalize} Cohort".center(50, "-")
-    students.each_with_index do |student, index|
-      if student[:cohort] == month.to_sym
-        puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort), birth country: #{student[:birth_country]}"
+  if students.empty? == true
+    # do nothing
+  else
+    @months.each do |month|
+      puts "#{month.capitalize} Cohort".center(50, "-")
+      students.each_with_index do |student, index|
+        if student[:cohort] == month.to_sym
+          puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort), birth country: #{student[:birth_country]}"
+        end
       end
     end
   end
@@ -78,11 +82,9 @@ end
 
 # prints the number of students
 def print_footer(names)
-  if names.count == 0
-    puts "There are no students present in the directory"
-  elsif names.count == 1
+  if names.count == 1
     puts "Overall we have #{names.count} great student"
-  else
+  elsif names.count > 1
     puts "Overall we have #{names.count} great students"
   end
 end
