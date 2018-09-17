@@ -1,8 +1,7 @@
 #!/usr/bin/env ruby
 
 def input_students
-  puts "Please enter the name of the student and their birth country,
-separated with a comma"
+  puts "Please enter the name of the student and their birth country, separated with a comma"
   puts "To finish, just hit return twice"
   # create an empty array
   students = []
@@ -23,15 +22,13 @@ separated with a comma"
 end
 
 def print_header
-  puts "The students of Villians Academy"
-  puts "--------------------------------"
+  puts "The students of Villians Academy".center(50, "-")
 end
 
 # prints the list of students
 def print(students)
   students.each_with_index do |student, index|
-    puts "#{index}. #{student[:name]} (#{student[:cohort]} cohort), birth
-country: #{student[:birth_country]}"
+    puts "#{index}. #{student[:name]} (#{student[:cohort]} cohort), birth country: #{student[:birth_country]}"
   end
 end
 
