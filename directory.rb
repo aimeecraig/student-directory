@@ -11,7 +11,8 @@ def print_menu
   puts "3. Save the list to a file"
   puts "4. Load the list from a file"
   puts "5. Find students with names below a specific character limit"
-  puts "6. Find students with names beginning with a particular letter"
+  puts "6. Find students with names beginning with a specific character"
+  puts "7. Show source code"
   puts "9. Exit"
 end
 
@@ -40,6 +41,8 @@ def process(selection)
   when "6"
     puts "Specify the letter to search for"
     print_beginning_with(STDIN.gets.chomp.upcase)
+  when "7"
+    show_source
   when "9"
     exit
   else
@@ -172,6 +175,10 @@ def try_load_students
     puts "Sorry, #{filename} doesn't exist"
     exit
   end
+end
+
+def show_source
+  puts File.read(__FILE__)
 end
 
 try_load_students
