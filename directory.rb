@@ -3,25 +3,21 @@
 @students = []
 @months = [ "january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december" ]
 
-def interactive_menu
-  loop do
-    print_menu
-    process(STDIN.gets.chomp)
-  end
-end
-
 def print_menu
   puts "1. Input the students"
   puts "2. Show the students"
   puts "3. Save the list to students.csv"
   puts "4. Load the list from students.csv"
+  puts "5. Find students with names below a specific character limit"
+  puts "6. Find students with names beginning with a particular letter"
   puts "9. Exit"
 end
 
-def show_students
-  print_header
-  print_student_list(@students)
-  print_footer(@students)
+def interactive_menu
+  loop do
+    print_menu
+    process(STDIN.gets.chomp)
+  end
 end
 
 def process(selection)
@@ -35,6 +31,12 @@ def process(selection)
     save_students
   when "4"
     load_students
+  when "5"
+    puts "Specify the character limit"
+    print_shorter_than(STDIN.gets.chomp)
+  when "6"
+    puts "Specify the letter to search for"
+    print_beginning_with(STDIN.gets.chomp.upcase)
   when "9"
     exit
   else
@@ -65,8 +67,10 @@ def input_students
   end
 end
 
-def push_entry(name, cohort, birth_country)
-  @students << {name: name, cohort: cohort.to_sym, birth_country: birth_country}
+def show_students
+  print_header
+  print_student_list(@students)
+  print_footer(@students)
 end
 
 def print_header
@@ -90,6 +94,19 @@ def print_student_list(students)
   end
 end
 
+# prints the number of students
+def print_footer(names)
+  if names.count == 1
+    puts "Overall we have #{names.count} great student"
+  elsif names.count > 1
+    puts "Overall we have #{names.count} great students"
+  end
+end
+
+def push_entry(name, cohort, birth_country)
+  @students << {name: name, cohort: cohort.to_sym, birth_country: birth_country}
+end
+
 # prints specific month
 def print_month(students, month)
   puts "#{month.capitalize} Cohort".center(50, "-")
@@ -101,30 +118,29 @@ def print_month(students, month)
 end
 
 # prints the students whose name begins with a certain letter
-def print_selected(students, letter)
-  students.each_with_index do |student, index|
-    if student[:name].start_with?(letter)
-      puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort)"
+def print_beginning_with(letter)
+  @months.each do |month|
+    puts "#{month.capitalize} Cohort".center(50, "-")
+    @students.each_with_index do |student, index|
+      if student[:name].start_with?(letter) && student[:cohort] == month.to_sym
+        puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort), birth country: #{student[:birth_country]}"
+      end
     end
   end
+  puts "\n"
 end
 
 # prints the students whose name is less than n characters
-def print_shorter_than(students, character_limit)
-  students.each_with_index do |student, index|
-    if student[:name].length <= character_limit
-      puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort)"
+def print_shorter_than(character_limit)
+  @months.each do |month|
+    puts "#{month.capitalize} Cohort".center(50, "-")
+    @students.each_with_index do |student, index|
+      if student[:cohort] == month.to_sym && student[:name].length <= character_limit.to_i
+        puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort), birth country: #{student[:birth_country]}"
+      end
     end
   end
-end
-
-# prints the number of students
-def print_footer(names)
-  if names.count == 1
-    puts "Overall we have #{names.count} great student"
-  elsif names.count > 1
-    puts "Overall we have #{names.count} great students"
-  end
+  puts "\n"
 end
 
 def save_students
@@ -137,6 +153,7 @@ def save_students
     file.puts csv_line
   end
   file.close
+  puts "#{@students.count} students saved successfully"
 end
 
 def load_students(filename = "students.csv")
@@ -152,6 +169,7 @@ def try_load_students
   filename = ARGV.first # first argument from the command line
   if filename.nil?
     load_students
+    puts "Loaded #{@students.count} students from default file"
   elsif File.exists?(filename)
     load_students(filename)
     puts "Loaded #{@students.count} students from #{filename}"
