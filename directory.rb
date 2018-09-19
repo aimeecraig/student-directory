@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+require 'csv'
+
 @students = []
 @months = [ "january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december" ]
 
@@ -146,24 +148,16 @@ end
 
 def save_students
   puts "Specify the filename to save to"
-  # open the file for writing
-  File.open(STDIN.gets.chomp, "w") do |file|
-    # iterate over the array of students
+  CSV.open(filename = STDIN.gets.chomp, "w") do |csv|
     @students.each do |student|
-      student_data = [student[:name], student[:cohort], student[:birth_country]]
-      csv_line = student_data.join(",")
-      file.puts csv_line
+      csv << student.values
     end
   end
-  puts "#{@students.count} students saved successfully"
 end
 
 def load_students(filename)
-  File.open(filename, "r") do |file|
-    file.readlines.each do |line|
-      name, cohort, birth_country = line.chomp.split(",")
-      push_entry(name, cohort, birth_country)
-    end
+  CSV.foreach(filename) do |row|
+    push_entry(row[0], row[1], row[2])
   end
   puts "Loaded #{@students.count} students from #{filename}"
 end
