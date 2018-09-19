@@ -7,7 +7,7 @@ def print_menu
   puts "1. Input the students"
   puts "2. Show the students"
   puts "3. Save the list to a file"
-  puts "4. Load the list from students.csv"
+  puts "4. Load the list from a file"
   puts "5. Find students with names below a specific character limit"
   puts "6. Find students with names beginning with a particular letter"
   puts "9. Exit"
@@ -30,7 +30,8 @@ def process(selection)
   when "3"
     save_students
   when "4"
-    load_students
+    puts "Specify the filename to load from"
+    load_students(STDIN.gets.chomp)
   when "5"
     puts "Specify the character limit"
     print_shorter_than(STDIN.gets.chomp)
@@ -157,23 +158,22 @@ def save_students
   puts "#{@students.count} students saved successfully"
 end
 
-def load_students(filename = "students.csv")
+def load_students(filename)
   file = File.open(filename, "r")
   file.readlines.each do |line|
     name, cohort, birth_country = line.chomp.split(",")
     push_entry(name, cohort, birth_country)
   end
   file.close
+  puts "Loaded #{@students.count} students from #{filename}"
 end
 
 def try_load_students
   filename = ARGV.first # first argument from the command line
   if filename.nil?
     load_students("students.csv")
-    puts "Loaded #{@students.count} students from default file"
   elsif File.exists?(filename)
     load_students(filename)
-    puts "Loaded #{@students.count} students from #{filename}"
   else
     puts "Sorry, #{filename} doesn't exist"
     exit
