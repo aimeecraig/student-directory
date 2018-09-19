@@ -144,8 +144,9 @@ def print_shorter_than(character_limit)
 end
 
 def save_students
+  puts "Specify the filename to save to"
   # open the file for writing
-  file = File.open("students.csv", "w")
+  file = File.open(STDIN.gets.chomp, "w")
   # iterate over the array of students
   @students.each do |student|
     student_data = [student[:name], student[:cohort], student[:birth_country]]
@@ -168,7 +169,7 @@ end
 def try_load_students
   filename = ARGV.first # first argument from the command line
   if filename.nil?
-    load_students
+    load_students("students.csv")
     puts "Loaded #{@students.count} students from default file"
   elsif File.exists?(filename)
     load_students(filename)
