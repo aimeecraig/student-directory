@@ -6,7 +6,7 @@
 def print_menu
   puts "1. Input the students"
   puts "2. Show the students"
-  puts "3. Save the list to students.csv"
+  puts "3. Save the list to a file"
   puts "4. Load the list from students.csv"
   puts "5. Find students with names below a specific character limit"
   puts "6. Find students with names beginning with a particular letter"
